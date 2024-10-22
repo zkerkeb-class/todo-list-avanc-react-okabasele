@@ -18,11 +18,7 @@ const Task = ({ id, title, completed, onComplete, onDelete }: TaskProps) => {
   return (
     <div className="w-full border-b flex py-5 justify-between">
       <div className="flex gap-2">
-        <input
-          type="checkbox"
-          checked={completed}
-          onChange={(e) => handleComplete(e)}
-        />
+        <input type="checkbox" checked={completed} onChange={handleComplete} />
         <p className="font-semibold">{title}</p>
       </div>
       <button onClick={handleDelete}>
