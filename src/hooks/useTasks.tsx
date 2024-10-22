@@ -4,25 +4,40 @@ import { useState } from "react";
 const useTasks = () => {
   const [tasks, setTasks] = useState<ITask[]>([]);
 
+  const saveTasks = (tasks: ITask[]) => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  };
+
+  const fetchTasks = async () => {
+    const storedTasks = localStorage.getItem("tasks");
+    if (storedTasks) {
+      setTasks(JSON.parse(storedTasks));
+    }
+  };
+
   const createTask = (title: string) => {
     const newTask: ITask = {
       id: Math.random().toString(36).substring(2, 11),
       title,
       completed: false,
     };
-    setTasks([...tasks, newTask]);
+    const newTasks = [...tasks, newTask];
+    setTasks(newTasks);
+    saveTasks(newTasks);
   };
 
   const deleteTask = (id: string) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+    const newTasks = tasks.filter((task) => task.id !== id);
+    setTasks(newTasks);
+    saveTasks(newTasks);
   };
 
   const completeTask = (id: string) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
+    const newTasks = tasks.map((task) =>
+      task.id === id ? { ...task, completed: !task.completed } : task
     );
+    setTasks(newTasks);
+    saveTasks(newTasks);
   };
 
   return {
@@ -30,6 +45,7 @@ const useTasks = () => {
     createTask,
     deleteTask,
     completeTask,
+    fetchTasks,
   };
 };
 
