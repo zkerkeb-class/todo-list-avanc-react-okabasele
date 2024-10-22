@@ -1,5 +1,5 @@
 import { ITask } from "@/interface/task";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 const useTasks = () => {
   const [tasks, setTasks] = useState<ITask[]>([]);
@@ -15,30 +15,40 @@ const useTasks = () => {
     }
   };
 
-  const createTask = (title: string) => {
-    const newTask: ITask = {
-      id: Math.random().toString(36).substring(2, 11),
-      title,
-      completed: false,
-    };
-    const newTasks = [...tasks, newTask];
-    setTasks(newTasks);
-    saveTasks(newTasks);
-  };
+  const createTask = useCallback(
+    (title: string) => {
+      const newTask: ITask = {
+        id: Math.random().toString(36).substring(2, 11),
+        title,
+        completed: false,
+      };
+      const newTasks = [...tasks, newTask];
+      setTasks(newTasks);
+      saveTasks(newTasks);
+    },
+    [tasks]
+  );
 
-  const deleteTask = (id: string) => {
-    const newTasks = tasks.filter((task) => task.id !== id);
-    setTasks(newTasks);
-    saveTasks(newTasks);
-  };
+  const deleteTask = useCallback(
+    (id: string) => {
+      const newTasks = tasks.filter((task) => task.id !== id);
+      setTasks(newTasks);
+      saveTasks(newTasks);
+    },
+    [tasks]
+  );
 
-  const completeTask = (id: string) => {
-    const newTasks = tasks.map((task) =>
-      task.id === id ? { ...task, completed: !task.completed } : task
-    );
-    setTasks(newTasks);
-    saveTasks(newTasks);
-  };
+  const completeTask = useCallback(
+    (id: string) => {
+      const newTasks = tasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      );
+      setTasks(newTasks);
+      saveTasks(newTasks);
+    },
+    [tasks]
+  );
+
   const filterTodos = (todos: ITask[], filter: string) => {
     switch (filter) {
       case "completed":
@@ -48,7 +58,7 @@ const useTasks = () => {
       default:
         return todos;
     }
-  }
+  };
 
   return {
     tasks,
@@ -56,7 +66,7 @@ const useTasks = () => {
     deleteTask,
     completeTask,
     fetchTasks,
-    filterTodos
+    filterTodos,
   };
 };
 
