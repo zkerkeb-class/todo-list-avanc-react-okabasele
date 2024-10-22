@@ -41,9 +41,9 @@ export default function Home() {
   }
 
   return (
-    <section>
-      <AddTask onAdd={createTodo}/>
+    <section className="px-2">
       <TaskList tasks={todos} onDelete={deleteTodo} onComplete={completeTodo} />
+      <AddTask onAdd={createTodo}/>
     </section>
   );
 }

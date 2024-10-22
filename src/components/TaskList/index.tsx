@@ -9,11 +9,9 @@ type TaskListProps = {
 };
 const TaskList = ({ tasks, onDelete, onComplete }: TaskListProps) => {
   return (
-    <div>
+    <div className="flex flex-col">
       {tasks.map((task) => (
-        <div key={task.id}>
-          <Task {...task} onComplete={onComplete} onDelete={onDelete}  />
-        </div>
+        <Task key={task.id} {...task} onComplete={onComplete} onDelete={onDelete} />
       ))}
     </div>
   );

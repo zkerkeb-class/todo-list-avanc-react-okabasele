@@ -7,26 +7,25 @@ type TaskProps = ITask & {
   onDelete: (id: string) => void;
 };
 const Task = ({ id, title, completed, onComplete, onDelete }: TaskProps) => {
-
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     onDelete(id);
   };
-  const handleComplete = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
+  const handleComplete = () => {
     onComplete(id);
   };
 
   return (
-    <div key={id}>
-      <input
-        type="checkbox"
-        checked={completed}
-        onChange={(e) => handleComplete(e)}
-      />
-      {title}
-      <button
-      onClick={(e)=>handleDelete(e)}>
+    <div className="w-full border-b flex py-5 justify-between">
+      <div className="flex gap-2">
+        <input
+          type="checkbox"
+          checked={completed}
+          onChange={(e) => handleComplete(e)}
+        />
+        <p className="font-semibold">{title}</p>
+      </div>
+      <button onClick={handleDelete}>
         <IoTrashBin />
       </button>
     </div>
